@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DEMETER - Your neighborhood, nourished.</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            demeter: {
+              50: '#f2f8f4',
+              100: '#e1f0e5',
+              200: '#c3e2cc',
+              300: '#99cbaa',
+              400: '#68ad82',
+              500: '#439063',
+              600: '#32744d',
+              700: '#285d3f',
+              800: '#224a33',
+              900: '#1d3e2c',
+              dark: '#13281c',
+              cream: '#faf8f5',
+              accent: '#d97706'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            heading: ['Outfit', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #f3f6f3;
+      color: #1e2b23;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(215, 232, 221, 0.8);
+    }
+    .glass-pill {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(215, 232, 221, 0.9);
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #e8f2ea;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #a1cca8;
+      border-radius: 10px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #439063;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col pb-20 md:pb-0">
+
+  <!-- TOP APP HEADER -->
+  <header class="sticky top-0 z-40 bg-demeter-dark/95 backdrop-blur-md text-white border-b border-demeter-800 shadow-md">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      
+      <!-- Logo & Tagline -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-2xl bg-demeter-500 text-white flex items-center justify-center shadow-inner">
+          <i class="fa-solid fa-seedling text-lg"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="font-heading font-extrabold text-xl tracking-tight text-white">DEMETER</h1>
+            <span class="text-[10px] font-bold bg-demeter-700 text-demeter-200 px-2 py-0.5 rounded-full border border-demeter-600 hidden sm:inline-block">Food Rescue</span>
+          </div>
+          <p class="text-[11px] text-demeter-200 font-medium">Your neighborhood, nourished.</p>
+        </div>
+      </div>
+
+      <!-- Location Badge -->
+      <div class="hidden md:flex items-center gap-2 bg-demeter-800/80 px-3.5 py-1.5 rounded-full border border-demeter-700 text-xs text-demeter-100">
+        <i class="fa-solid fa-location-dot text-demeter-400"></i>
+        <span>Oakland, CA • Within 2 miles</span>
+      </div>
+
+      <!-- Desktop Nav & Profile -->
+      <div class="flex items-center gap-3">
+        <nav class="hidden md:flex items-center space-x-1 mr-2">
+          <button onclick="switchTab('pantry')" id="desk-nav-pantry" class="desk-nav-btn px-3 py-1.5 rounded-xl text-xs font-bold transition bg-demeter-600 text-white">Pantry</button>
+          <button onclick="switchTab('donate')" id="desk-nav-donate" class="desk-nav-btn px-3 py-1.5 rounded-xl text-xs font-bold transition text-demeter-200 hover:text-white hover:bg-demeter-800">Donate Hub</button>
+          <button onclick="switchTab('discover')" id="desk-nav-discover" class="desk-nav-btn px-3 py-1.5 rounded-xl text-xs font-bold transition text-demeter-200 hover:text-white hover:bg-demeter-800">Discover</button>
+          <button onclick="switchTab('pickup')" id="desk-nav-pickup" class="desk-nav-btn px-3 py-1.5 rounded-xl text-xs font-bold transition text-demeter-200 hover:text-white hover:bg-demeter-800">Pickup</button>
+          <button onclick="switchTab('impact')" id="desk-nav-impact" class="desk-nav-btn px-3 py-1.5 rounded-xl text-xs font-bold transition text-demeter-200 hover:text-white hover:bg-demeter-800">Impact</button>
+        </nav>
+
+        <!-- Profile Badge -->
+        <div class="flex items-center gap-2 bg-demeter-700/60 p-1.5 pr-3 rounded-full border border-demeter-600">
+          <div class="w-7 h-7 rounded-full bg-demeter-300 text-demeter-900 font-bold text-xs flex items-center justify-center font-heading">
+            AL
+          </div>
+          <div class="text-left hidden sm:block">
+            <p class="text-xs font-bold leading-none text-white">Alex L.</p>
+            <p class="text-[10px] text-demeter-300 leading-tight">12 kg Rescued</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN VIEW CONTAINER -->
+  <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-6">
+
+    <!-- 1. PANTRY & EXPIRY TRACKER VIEW -->
+    <section id="view-pantry" class="space-y-6">
+      
+      <!-- Greeting & Header -->
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-5 rounded-3xl border border-demeter-100 shadow-sm">
+        <div>
+          <h2 class="font-heading font-extrabold text-2xl text-demeter-900">Good morning, Alex 👋</h2>
+          <p class="text-xs text-gray-500 mt-0.5">A little care. A lot less waste. What's in your pantry today?</p>
+        </div>
+        <button onclick="openAddFoodModal()" class="w-full sm:w-auto px-4 py-2.5 bg-demeter-600 hover:bg-demeter-700 text-white font-bold text-xs rounded-2xl shadow-md transition flex items-center justify-center gap-2">
+          <i class="fa-solid fa-plus text-sm"></i>
+          <span>+ Add Food / Scan Receipt</span>
+        </button>
+      </div>
+
+      <!-- EXPIRING SOON ALERT BANNER -->
+      <div class="glass-card p-5 rounded-3xl border-l-4 border-red-500 shadow-sm space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping"></span>
+            <h3 class="font-heading font-bold text-sm text-red-700 uppercase tracking-wider">A Little Love, Before It's Late</h3>
+          </div>
+          <span class="text-xs font-bold text-red-600 bg-red-50 px-2.5 py-0.5 rounded-full border border-red-100">2 Items Urgent</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Urgent Card 1 -->
+          <div class="bg-white p-4 rounded-2xl border border-red-100 flex items-center justify-between shadow-xs">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-xl bg-red-50 border border-red-100 flex items-center justify-center text-red-500 text-xl font-bold">
+                🥬
+              </div>
+              <div>
+                <h4 class="font-bold text-sm text-gray-800">Baby Spinach</h4>
+                <p class="text-xs text-gray-500">200g • In fridge</p>
+                <span class="inline-block text-[10px] font-bold text-red-600 bg-red-100 px-2 py-0.5 rounded-md mt-1">2 Days Left - Critical</span>
+              </div>
+            </div>
+            <!-- Action Pills -->
+            <div class="flex flex-col gap-1.5">
+              <button onclick="openRecipeModal('Baby Spinach')" class="px-3 py-1 bg-demeter-100 hover:bg-demeter-200 text-demeter-800 text-xs font-bold rounded-lg transition">Cook</button>
+              <button onclick="freezeItem('Baby Spinach')" class="px-3 py-1 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-bold rounded-lg transition">Freeze</button>
+              <button onclick="shareItemToDonation('Baby Spinach', '200g')" class="px-3 py-1 bg-demeter-600 hover:bg-demeter-700 text-white text-xs font-bold rounded-lg transition">Share</button>
+            </div>
+          </div>
+
+          <!-- Urgent Card 2 -->
+          <div class="bg-white p-4 rounded-2xl border border-amber-100 flex items-center justify-between shadow-xs">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-500 text-xl font-bold">
+                🍓
+              </div>
+              <div>
+                <h4 class="font-bold text-sm text-gray-800">Organic Strawberries</h4>
+                <p class="text-xs text-gray-500">1 Punnet • Counter</p>
+                <span class="inline-block text-[10px] font-bold text-amber-700 bg-amber-100 px-2 py-0.5 rounded-md mt-1">1 Day Left</span>
+              </div>
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <button onclick="openRecipeModal('Strawberries')" class="px-3 py-1 bg-demeter-100 hover:bg-demeter-200 text-demeter-800 text-xs font-bold rounded-lg transition">Cook</button>
+              <button onclick="freezeItem('Strawberries')" class="px-3 py-1 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-bold rounded-lg transition">Freeze</button>
+              <button onclick="shareItemToDonation('Strawberries', '1 Punnet')" class="px-3 py-1 bg-demeter-600 hover:bg-demeter-700 text-white text-xs font-bold rounded-lg transition">Share</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAIN PANTRY INVENTORY LIST -->
+      <div class="bg-white p-5 rounded-3xl border border-demeter-100 shadow-sm space-y-4">
+        
+        <!-- Search & Filter Controls -->
+        <div class="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-3">
+          <div class="relative flex-1">
+            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-gray-400 text-xs"></i>
+            <input type="text" id="pantry-search" oninput="filterPantryItems()" placeholder="Search your pantry..." class="w-full pl-9 pr-4 py-2 bg-demeter-50/60 rounded-2xl border border-demeter-100 text-xs focus:outline-none focus:ring-2 focus:ring-demeter-400">
+          </div>
+          
+          <!-- Category Pills -->
+          <div class="flex items-center gap-1.5 overflow-x-auto custom-scrollbar pb-1 md:pb-0">
+            <button onclick="filterCategory('All')" class="pantry-cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-demeter-600 text-white shadow-xs">All 12</button>
+            <button onclick="filterCategory('Produce')" class="pantry-cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-demeter-50 text-gray-600 hover:bg-demeter-100">Produce 5</button>
+            <button onclick="filterCategory('Dairy')" class="pantry-cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-demeter-50 text-gray-600 hover:bg-demeter-100">Dairy 3</button>
+            <button onclick="filterCategory('Bakery')" class="pantry-cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-demeter-50 text-gray-600 hover:bg-demeter-100">Bakery 4</button>
+          </div>
+        </div>
+
+        <!-- Inventory Grid -->
+        <div id="pantry-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-2">
+          <!-- Item 1 -->
+          <div class="pantry-item-card p-3.5 bg-demeter-50/40 rounded-2xl border border-demeter-100 flex items-center justify-between" data-category="Produce" data-name="Avocados">
+            <div class="flex items-center gap-3">
+              <span class="text-2xl">🥑</span>
+              <div>
+                <h5 class="font-bold text-xs text-gray-800">Ripe Avocados</h5>
+                <p class="text-[11px] text-gray-500">2 whole • Added yesterday</p>
+                <span class="text-[10px] font-semibold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-md inline-block mt-1">Ripe & ready</span>
+              </div>
+            </div>
+            <button onclick="shareItemToDonation('Ripe Avocados', '2 whole')" class="text-xs text-demeter-700 hover:text-demeter-900 font-bold p-2 bg-white rounded-xl shadow-xs"><i class="fa-solid fa-share-nodes"></i></button>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="pantry-item-card p-3.5 bg-demeter-50/40 rounded-2xl border border-demeter-100 flex items-center justify-between" data-category="Dairy" data-name="Greek Yogurt">
+            <div class="flex items-center gap-3">
+              <span class="text-2xl">🥣</span>
+              <div>
+                <h5 class="font-bold text-xs text-gray-800">Greek Yogurt</h5>
+                <p class="text-[11px] text-gray-500">400g • Use by Oct 20</p>
+                <span class="text-[10px] font-semibold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-md inline-block mt-1">5 days fresh</span>
+              </div>
+            </div>
+            <button onclick="shareItemToDonation('Greek Yogurt', '400g')" class="text-xs text-demeter-700 hover:text-demeter-900 font-bold p-2 bg-white rounded-xl shadow-xs"><i class="fa-solid fa-share-nodes"></i></button>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="pantry-item-card p-3.5 bg-demeter-50/40 rounded-2xl border border-demeter-100 flex items-center justify-between" data-category="Bakery" data-name="Sourdough Loaf">
+            <div class="flex items-center gap-3">
+              <span class="text-2xl">🍞</span>
+              <div>
+                <h5 class="font-bold text-xs text-gray-800">Artisan Sourdough</h5>
+                <p class="text-[11px] text-gray-500">1 loaf • Fresh baked</p>
+                <span class="text-[10px] font-semibold text-demeter-700 bg-demeter-100 px-2 py-0.5 rounded-md inline-block mt-1">Good to go</span>
+              </div>
+            </div>
+            <button onclick="shareItemToDonation('Sourdough Loaf', '1 loaf')" class="text-xs text-demeter-700 hover:text-demeter-900 font-bold p-2 bg-white rounded-xl shadow-xs"><i class="fa-solid fa-share-nodes"></i></button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 2. SMART DONATION HUB VIEW -->
+    <section id="view-donate" class="space-y-6 hidden">
+      
+      <div class="bg-demeter-800 text-white p-6 rounded-3xl shadow-sm relative overflow-hidden">
+        <div class="max-w-xl space-y-2 relative z-10">
+          <span class="text-xs font-bold text-demeter-300 uppercase tracking-wider">Donor Hub</span>
+          <h2 class="font-heading font-extrabold text-2xl">Share your surplus. Make someone's day.</h2>
+          <p class="text-xs text-demeter-200">Connect household abundance directly with nearby community shelters or smart neighborhood lockers.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- DONATION CREATOR FORM -->
+        <div class="lg:col-span-6 bg-white p-6 rounded-3xl border border-demeter-100 shadow-sm space-y-4">
+          <div class="flex items-center justify-between border-b border-gray-100 pb-3">
+            <h3 class="font-heading font-bold text-base text-demeter-900">What can you share?</h3>
+            <span class="text-xs text-demeter-600 font-semibold"><i class="fa-solid fa-hand-holding-heart mr-1"></i> Simple 1-tap list</span>
+          </div>
+
+          <form id="donation-form" onsubmit="handleOfferSubmit(event)" class="space-y-4">
+            <div>
+              <label class="block text-xs font-bold text-gray-700 mb-1">FOOD ITEM</label>
+              <input type="text" id="donate-item-name" required placeholder="e.g. Fresh Garden Vegetables" class="w-full px-3.5 py-2.5 bg-demeter-50/50 rounded-2xl border border-demeter-200 text-xs focus:outline-none focus:ring-2 focus:ring-demeter-500">
+            </div>
+
+            <!-- Quantity Counter -->
+            <div>
+              <label class="block text-xs font-bold text-gray-700 mb-1">QUANTITY / PORTIONS</label>
+              <div class="flex items-center gap-3 bg-demeter-50/50 p-2 rounded-2xl border border-demeter-200">
+                <button type="button" onclick="adjustQty(-1)" class="w-8 h-8 rounded-xl bg-white text-demeter-800 font-bold text-sm shadow-xs border flex items-center justify-center">-</button>
+                <span id="donate-qty-val" class="font-heading font-extrabold text-sm text-demeter-900 flex-1 text-center">3 kg (6 portions)</span>
+                <button type="button" onclick="adjustQty(1)" class="w-8 h-8 rounded-xl bg-white text-demeter-800 font-bold text-sm shadow-xs border flex items-center justify-center">+</button>
+              </div>
+            </div>
+
+            <!-- Usage Guidance Slider -->
+            <div>
+              <div class="flex justify-between items-center text-xs mb-1">
+                <span class="font-bold text-gray-700">BEST USED WITHIN</span>
+                <span id="best-within-val" class="font-bold text-demeter-700">2 days</span>
+              </div>
+              <input type="range" id="best-within-range" min="1" max="7" value="2" oninput="updateRangeLabel(this.value)" class="w-full accent-demeter-600">
+              <div class="flex justify-between text-[10px] text-gray-400 mt-1 font-semibold">
+                <span>Today</span>
+                <span>3 Days</span>
+                <span>7 Days</span>
+              </div>
+            </div>
+
+            <!-- Drop-off location -->
+            <div>
+              <label class="block text-xs font-bold text-gray-700 mb-1">PREFERRED DROP-OFF</label>
+              <select id="donate-location" class="w-full px-3.5 py-2.5 bg-demeter-50/50 rounded-2xl border border-demeter-200 text-xs focus:outline-none">
+                <option value="Mosswood Hub Locker #04">Mosswood Hub Locker #04 (0.4 mi)</option>
+                <option value="Hope Community Kitchen">Hope Community Kitchen (0.8 mi)</option>
+                <option value="Harbor Night Shelter">Harbor Night Shelter (1.2 mi)</option>
+              </select>
+            </div>
+
+            <button type="submit" class="w-full py-3 bg-demeter-700 hover:bg-demeter-800 text-white font-bold text-xs rounded-2xl shadow-md transition flex items-center justify-center gap-2">
+              <i class="fa-solid fa-paper-plane"></i>
+              <span>Offer This Food</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- URGENT NEEDS LIVE FEED -->
+        <div class="lg:col-span-6 bg-white p-6 rounded-3xl border border-demeter-100 shadow-sm space-y-4">
+          <div class="flex items-center justify-between border-b border-gray-100 pb-3">
+            <div>
+              <h3 class="font-heading font-bold text-base text-demeter-900">Urgent Shelter Needs</h3>
+              <p class="text-[11px] text-gray-500">Live requests broadcasted by community centers.</p>
+            </div>
+            <span class="flex items-center gap-1 text-[10px] font-bold text-red-600 bg-red-50 px-2 py-1 rounded-full border border-red-100">
+              <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span> LIVE FEED
+            </span>
+          </div>
+
+          <div class="space-y-3">
+            <!-- Feed Item 1 -->
+            <div class="p-4 rounded-2xl bg-demeter-50/50 border border-demeter-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <h4 class="font-bold text-xs text-demeter-900">Hope Community Kitchen</h4>
+                  <span class="text-[9px] bg-red-100 text-red-700 font-bold px-1.5 py-0.5 rounded">Needed Today</span>
+                </div>
+                <p class="text-xs font-semibold text-gray-700 mt-0.5">Fresh Vegetables & Carrots</p>
+                <p class="text-[11px] text-gray-500">Cooking for 40 neighbors tonight • 0.8 mi</p>
+              </div>
+              <button onclick="prefillUrgentNeed('Fresh Vegetables', ' Hope Community Kitchen')" class="w-full sm:w-auto px-3.5 py-2 bg-demeter-600 hover:bg-demeter-700 text-white font-bold text-xs rounded-xl transition shadow-xs">
+                I Have This
+              </button>
+            </div>
+
+            <!-- Feed Item 2 -->
+            <div class="p-4 rounded-2xl bg-demeter-50/50 border border-demeter-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <h4 class="font-bold text-xs text-demeter-900">Harbor Night Shelter</h4>
+                  <span class="text-[9px] bg-red-100 text-red-700 font-bold px-1.5 py-0.5 rounded">Needed Today</span>
+                </div>
+                <p class="text-xs font-semibold text-gray-700 mt-0.5">Bread & Bakery Items</p>
+                <p class="text-[11px] text-gray-500">20 breakfast portions needed • 1.2 mi</p>
+              </div>
+              <button onclick="prefillUrgentNeed('Bakery Bread', 'Harbor Night Shelter')" class="w-full sm:w-auto px-3.5 py-2 bg-demeter-600 hover:bg-demeter-700 text-white font-bold text-xs rounded-xl transition shadow-xs">
+                I Have This
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3. DISCOVER / COMMUNITY FOOD FEED VIEW -->
+    <section id="view-discover" class="space-y-6 hidden">
+      
+      <div class="bg-white p-5 rounded-3xl border border-demeter-100 shadow-sm space-y-3">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+          <div>
+            <h2 class="font-heading font-extrabold text-2xl text-demeter-900">Fresh Around You</h2>
+            <p class="text-xs text-gray-500">Always free. Always discreet. Reserve food for private locker pickup.</p>
+          </div>
+          <span class="text-xs font-semibold text-demeter-700 bg-demeter-100 px-3 py-1 rounded-full"><i class="fa-solid fa-shield-cat mr-1"></i> No Personal Info Shared</span>
+        </div>
+
+        <!-- Filter Tags -->
+        <div class="flex items-center gap-2 overflow-x-auto custom-scrollbar pb-1">
+          <button onclick="filterDiscoverCategory('All')" class="disc-cat-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-demeter-700 text-white">All Food</button>
+          <button onclick="filterDiscoverCategory('Produce')" class="disc-cat-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-demeter-50 text-gray-600 hover:bg-demeter-100">Produce</button>
+          <button onclick="filterDiscoverCategory('Bakery')" class="disc-cat-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-demeter-50 text-gray-600 hover:bg-demeter-100">Bakery</button>
+          <button onclick="filterDiscoverCategory('Meals')" class="disc-cat-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-demeter-50 text-gray-600 hover:bg-demeter-100">Prepared Meals</button>
+        </div>
+      </div>
+
+      <!-- Food Listing Cards -->
+      <div id="discover-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        
+        <!-- Food Card 1 -->
+        <div class="discover-card bg-white p-5 rounded-3xl border border-demeter-100 shadow-sm flex flex-col justify-between space-y-4" data-cat="Produce">
+          <div class="space-y-3">
+            <div class="flex justify-between items-start">
+              <span class="text-3xl">🥦</span>
+              <span class="text-[10px] font-bold text-emerald-800 bg-emerald-100 px-2.5 py-1 rounded-full">Fresh</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-sm text-gray-800">Garden Vegetable Box</h3>
+              <p class="text-xs text-gray-500">Maple Street Garden • 4 boxes available</p>
+              <p class="text-[11px] text-demeter-700 font-semibold mt-1">Carrots, Broccoli, Zucchini</p>
+            </div>
+          </div>
+          <button onclick="reserveFoodItem('Garden Vegetable Box', 'Mosswood Hub Locker #04')" class="w-full py-2.5 bg-demeter-600 hover:bg-demeter-700 text-white font-bold text-xs rounded-2xl transition shadow-xs flex items-center justify-center gap-2">
+            <i class="fa-solid fa-lock"></i>
+            <span>Reserve for Private Pickup</span>
+          </button>
+        </div>
+
+        <!-- Food Card 2 -->
+        <div class="discover-card bg-white p-5 rounded-3xl border border-demeter-100 shadow-sm flex flex-col justify-between space-y-4" data-cat="Bakery">
+          <div class="space-y-3">
+            <div class="flex justify-between items-start">
+              <span class="text-3xl">🥖</span>
+              <span class="text-[10px] font-bold text-emerald-800 bg-emerald-100 px-2.5 py-1 rounded-full">Good</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-sm text-gray-800">Artisan Sourdough</h3>
+              <p class="text-xs text-gray-500">The Good Loaf • 6 loaves available</p>
+              <p class="text-[11px] text-demeter-700 font-semibold mt-1">Baked fresh this morning</p>
+            </div>
+          </div>
+          <button onclick="reserveFoodItem('Artisan Sourdough', 'Central Station Locker #02')" class="w-full py-2.5 bg-demeter-600 hover:bg-demeter-700 text-white font-bold text-xs rounded-2xl transition shadow-xs flex items-center justify-center gap-2">
+            <i class="fa-solid fa-lock"></i>
+            <span>Reserve for Private Pickup</span>
+          </button>
+        </div>
+
+        <!-- Food Card 3 -->
+        <div class="discover-card bg-white p-5 rounded-3xl border border-demeter-100 shadow-sm flex flex-col justify-between space-y-4" data-cat="Produce">
+          <div class="space-y-3">
+            <div class="flex justify-between items-start">
+              <span class="text-3xl">🍊</span>
+              <span class="text-[10px] font-bold text-emerald-800 bg-emerald-100 px-2.5 py-1 rounded-full">Fresh</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-sm text-gray-800">Seasonal Fruit Bag</h3>
+              <p class="text-xs text-gray-500">Riverbend Co-op • 3 bags available</p>
+              <p class="text-[11px] text-demeter-700 font-semibold mt-1">Oranges & Organic Apples</p>
+            </div>
+          </div>
+          <button onclick="reserveFoodItem('Seasonal Fruit Bag', 'Mosswood Hub Locker #04')" class="w-full py-2.5 bg-demeter-600 hover:bg-demeter-700 text-white font-bold text-xs rounded-2xl transition shadow-xs flex items-center justify-center gap-2">
+            <i class="fa-solid fa-lock"></i>
+            <span>Reserve for Private Pickup</span>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4. ANONYMOUS LOCKER & PICKUP VIEW -->
+    <section id="view-pickup" class="space-y-6 hidden">
+      
+      <!-- Privacy Banner -->
+      <div class="bg-demeter-900 text-white p-5 rounded-3xl border border-demeter-700 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-demeter-800 flex items-center justify-center text-demeter-300">
+            <i class="fa-solid fa-user-shield text-lg"></i>
+          </div>
+          <div>
+            <h2 class="font-heading font-extrabold text-lg">Your food. Your privacy.</h2>
+            <p class="text-xs text-demeter-200">Anonymous access — no personal info required • Encrypted PIN</p>
+          </div>
+        </div>
+        <span class="text-xs font-mono font-bold bg-demeter-800 text-demeter-300 px-3 py-1 rounded-full border border-demeter-700">LOCKER ENCRYPTED</span>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- PIN & QR CARD -->
+        <div class="lg:col-span-5 bg-white p-6 rounded-3xl border border-demeter-100 shadow-sm flex flex-col items-center text-center space-y-4">
+          <span class="text-xs font-bold text-demeter-600 uppercase tracking-wider">Your Private Access Pass</span>
+          
+          <!-- 4-Digit PIN -->
+          <div class="flex justify-center gap-2.5 text-2xl font-mono font-extrabold text-demeter-900 my-2">
+            <span class="w-12 h-14 bg-demeter-50 border border-demeter-200 rounded-2xl flex items-center justify-center shadow-xs">4</span>
+            <span class="w-12 h-14 bg-demeter-50 border border-demeter-200 rounded-2xl flex items-center justify-center shadow-xs">8</span>
+            <span class="w-12 h-14 bg-demeter-50 border border-demeter-200 rounded-2xl flex items-center justify-center shadow-xs">2</span>
+            <span class="w-12 h-14 bg-demeter-50 border border-demeter-200 rounded-2xl flex items-center justify-center shadow-xs">9</span>
+          </div>
+
+          <!-- SIMULATED QR CODE -->
+          <div class="p-4 bg-white border-2 border-demeter-800 rounded-2xl shadow-inner">
+            <svg class="w-36 h-36" viewBox="0 0 100 100">
+              <rect width="100" height="100" fill="white"/>
+              <!-- QR Patterns -->
+              <rect x="10" y="10" width="25" height="25" fill="#13281c"/>
+              <rect x="15" y="15" width="15" height="15" fill="white"/>
+              <rect x="18" y="18" width="9" height="9" fill="#13281c"/>
+
+              <rect x="65" y="10" width="25" height="25" fill="#13281c"/>
+              <rect x="70" y="15" width="15" height="15" fill="white"/>
+              <rect x="73" y="18" width="9" height="9" fill="#13281c"/>
+
+              <rect x="10" y="65" width="25" height="25" fill="#13281c"/>
+              <rect x="15" y="70" width="15" height="15" fill="white"/>
+              <rect x="18" y="73" width="9" height="9" fill="#13281c"/>
+
+              <rect x="40" y="15" width="15" height="10" fill="#13281c"/>
+              <rect x="45" y="30" width="20" height="15" fill="#13281c"/>
+              <rect x="20" y="45" width="15" height="15" fill="#13281c"/>
+              <rect x="65" y="65" width="20" height="20" fill="#13281c"/>
+              <rect x="45" y="70" width="10" height="15" fill="#13281c"/>
+            </svg>
+          </div>
+
+          <div class="text-xs text-gray-500 space-y-1">
+            <p class="font-bold text-gray-800">Scan at locker screen or enter PIN manually</p>
+            <p class="text-[11px]">Valid until 8:00 PM tonight • Mosswood Hub</p>
+          </div>
+        </div>
+
+        <!-- LIVE ROUTE & LOCKER STATUS -->
+        <div class="lg:col-span-7 bg-white p-6 rounded-3xl border border-demeter-100 shadow-sm space-y-5 flex flex-col justify-between">
+          <div>
+            <div class="flex justify-between items-center mb-3">
+              <h3 class="font-heading font-bold text-base text-demeter-900">Live Delivery & Pickup Route</h3>
+              <span class="text-xs font-bold text-demeter-700 bg-demeter-100 px-3 py-1 rounded-full">Arriving in 6 min</span>
+            </div>
+
+            <!-- SIMULATED CANVAS MAP -->
+            <div class="relative w-full h-44 bg-demeter-50 rounded-2xl border border-demeter-200 overflow-hidden p-4 flex flex-col justify-between">
+              <!-- Grid Roads Overlay -->
+              <div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(#285d3f 1px, transparent 1px); background-size: 16px 16px;"></div>
+              
+              <!-- Route Path -->
+              <svg class="absolute inset-0 w-full h-full" preserveAspectRatio="none">
+                <path d="M 30,120 L 120,120 L 120,50 L 280,50" fill="none" stroke="#32744d" stroke-width="4" stroke-dasharray="6,6"/>
+              </svg>
+
+              <!-- Route Markers -->
+              <div class="relative z-10 flex justify-between items-center h-full text-xs font-bold">
+                <div class="flex flex-col items-center bg-white px-2.5 py-1.5 rounded-xl border border-demeter-300 shadow-xs">
+                  <span class="w-6 h-6 rounded-full bg-demeter-700 text-white flex items-center justify-center text-[10px] mb-1">1</span>
+                  <span class="text-[10px] text-gray-700">Collected</span>
+                </div>
+
+                <div class="flex flex-col items-center bg-white px-2.5 py-1.5 rounded-xl border border-demeter-300 shadow-xs">
+                  <span class="w-6 h-6 rounded-full bg-amber-500 text-white flex items-center justify-center text-[10px] mb-1"><i class="fa-solid fa-bicycle"></i></span>
+                  <span class="text-[10px] text-gray-700">In Transit</span>
+                </div>
+
+                <div class="flex flex-col items-center bg-demeter-800 text-white px-2.5 py-1.5 rounded-xl shadow-md">
+                  <span class="w-6 h-6 rounded-full bg-demeter-500 text-white flex items-center justify-center text-[10px] mb-1"><i class="fa-solid fa-box"></i></span>
+                  <span class="text-[10px]">Your Locker #04</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STATUS & ACTION -->
+          <div class="space-y-3 pt-2">
+            <div class="p-3 bg-demeter-50 rounded-2xl border border-demeter-100 flex items-center justify-between">
+              <div>
+                <p class="font-bold text-xs text-demeter-900">Mosswood Hub Locker #04</p>
+                <p class="text-[11px] text-gray-500">3612 Webster St • Accessible 24/7</p>
+              </div>
+              <span class="text-xs font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full">Collection Ready</span>
+            </div>
+
+            <button onclick="markCollected()" class="w-full py-3 bg-demeter-700 hover:bg-demeter-800 text-white font-bold text-xs rounded-2xl shadow-md transition flex items-center justify-center gap-2">
+              <i class="fa-solid fa-circle-check"></i>
+              <span>Mark Collected & Verify Quality</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 5. IMPACT & GAMIFICATION DASHBOARD VIEW -->
+    <section id="view-impact" class="space-y-6 hidden">
+      
+      <div class="bg-white p-6 rounded-3xl border border-demeter-100 shadow-sm space-y-2">
+        <span class="text-xs font-bold text-demeter-600 uppercase tracking-wider">Your Environmental Footprint</span>
+        <h2 class="font-heading font-extrabold text-2xl text-demeter-900">Look at the good you're growing, Alex 🌱</h2>
+        <p class="text-xs text-gray-500">Small household acts. Measurable community impact.</p>
+      </div>
+
+      <!-- MAIN METRICS CARDS -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        
+        <div class="bg-white p-5 rounded-3xl border border-demeter-100 shadow-sm space-y-2">
+          <div class="w-10 h-10 rounded-2xl bg-demeter-100 text-demeter-800 flex items-center justify-center text-lg">
+            🥑
+          </div>
+          <span class="text-xs font-bold text-gray-500 block">TOTAL FOOD RESCUED</span>
+          <p id="stat-food-saved" class="font-heading font-extrabold text-3xl text-demeter-900">12 kg</p>
+          <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full inline-block">+32% more than last month</span>
+        </div>
+
+        <div class="bg-white p-5 rounded-3xl border border-demeter-100 shadow-sm space-y-2">
+          <div class="w-10 h-10 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center text-lg">
+            🍃
+          </div>
+          <span class="text-xs font-bold text-gray-500 block">CO2 OFFSET</span>
+          <p id="stat-co2-offset" class="font-heading font-extrabold text-3xl text-emerald-800">8.4 kg</p>
+          <span class="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full inline-block">84% of 10 kg monthly goal</span>
+        </div>
+
+        <div class="bg-white p-5 rounded-3xl border border-demeter-100 shadow-sm space-y-2">
+          <div class="w-10 h-10 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center text-lg">
+            🍲
+          </div>
+          <span class="text-xs font-bold text-gray-500 block">MEALS SHARED</span>
+          <p id="stat-meals-shared" class="font-heading font-extrabold text-3xl text-amber-800">24</p>
+          <span class="text-[10px] font-bold text-demeter-700 bg-demeter-50 px-2 py-0.5 rounded-full inline-block">80% of 30 meal target</span>
+        </div>
+
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- EARNED BADGES -->
+        <div class="lg:col-span-6 bg-white p-6 rounded-3xl border border-demeter-100 shadow-sm space-y-4">
+          <h3 class="font-heading font-bold text-base text-demeter-900">Your Earned Badges</h3>
+          
+          <div class="grid grid-cols-3 gap-3 text-center">
+            <div class="p-3 bg-demeter-50 rounded-2xl border border-demeter-100 space-y-1">
+              <span class="text-2xl">🌱</span>
+              <p class="font-bold text-xs text-demeter-900">First Share</p>
+              <p class="text-[9px] text-gray-500">Completed 1st drop</p>
+            </div>
+
+            <div class="p-3 bg-demeter-50 rounded-2xl border border-demeter-100 space-y-1">
+              <span class="text-2xl">🦸</span>
+              <p class="font-bold text-xs text-demeter-900">Food Hero</p>
+              <p class="text-[9px] text-gray-500">10 kg rescued</p>
+            </div>
+
+            <div class="p-3 bg-demeter-50 rounded-2xl border border-demeter-100 space-y-1">
+              <span class="text-2xl">🔥</span>
+              <p class="font-bold text-xs text-demeter-900">7-Day Streak</p>
+              <p class="text-[9px] text-gray-500">Pantry updated daily</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- WEEKLY LEADERBOARD -->
+        <div class="lg:col-span-6 bg-white p-6 rounded-3xl border border-demeter-100 shadow-sm space-y-4">
+          <div class="flex justify-between items-center">
+            <h3 class="font-heading font-bold text-base text-demeter-900">Oakland Community Champions</h3>
+            <span class="text-[11px] font-bold text-gray-400">This week</span>
+          </div>
+
+          <div class="space-y-2">
+            <!-- Rank 1 -->
+            <div class="p-2.5 rounded-2xl bg-amber-50/60 border border-amber-100 flex items-center justify-between text-xs">
+              <div class="flex items-center gap-2.5">
+                <span class="font-heading font-extrabold text-amber-700 w-4">1</span>
+                <div class="w-7 h-7 rounded-full bg-amber-200 text-amber-900 font-bold flex items-center justify-center text-[10px]">MR</div>
+                <span class="font-bold text-gray-800">Maya R.</span>
+              </div>
+              <span class="font-extrabold text-amber-800">18.6 kg</span>
+            </div>
+
+            <!-- Rank 2 -->
+            <div class="p-2.5 rounded-2xl bg-demeter-50/40 border border-demeter-100 flex items-center justify-between text-xs">
+              <div class="flex items-center gap-2.5">
+                <span class="font-heading font-extrabold text-demeter-700 w-4">2</span>
+                <div class="w-7 h-7 rounded-full bg-demeter-200 text-demeter-900 font-bold flex items-center justify-center text-[10px]">JK</div>
+                <span class="font-bold text-gray-800">Jordan K.</span>
+              </div>
+              <span class="font-extrabold text-demeter-800">15.2 kg</span>
+            </div>
+
+            <!-- Rank 3 (User) -->
+            <div class="p-2.5 rounded-2xl bg-demeter-700 text-white shadow-xs flex items-center justify-between text-xs">
+              <div class="flex items-center gap-2.5">
+                <span class="font-heading font-extrabold text-demeter-200 w-4">3</span>
+                <div class="w-7 h-7 rounded-full bg-white text-demeter-900 font-bold flex items-center justify-center text-[10px]">AL</div>
+                <span class="font-bold">Alex L. (You)</span>
+              </div>
+              <span class="font-extrabold text-demeter-200">12 kg</span>
+            </div>
+          </div>
+
+          <button onclick="exportESGReport()" class="w-full py-2.5 border-2 border-demeter-700 hover:bg-demeter-50 text-demeter-800 font-bold text-xs rounded-2xl transition flex items-center justify-center gap-2 mt-2">
+            <i class="fa-solid fa-file-arrow-down"></i>
+            <span>Export Personal ESG Report</span>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- BOTTOM MOBILE NAVIGATION BAR -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-demeter-200 px-3 py-2 flex justify-around items-center shadow-lg">
+    <button onclick="switchTab('pantry')" id="mob-nav-pantry" class="mob-nav-btn flex flex-col items-center text-demeter-700 font-bold">
+      <i class="fa-solid fa-box-archive text-base"></i>
+      <span class="text-[10px] mt-0.5">Pantry</span>
+    </button>
+
+    <button onclick="switchTab('donate')" id="mob-nav-donate" class="mob-nav-btn flex flex-col items-center text-gray-400">
+      <i class="fa-solid fa-hand-holding-heart text-base"></i>
+      <span class="text-[10px] mt-0.5">Donate</span>
+    </button>
+
+    <button onclick="switchTab('discover')" id="mob-nav-discover" class="mob-nav-btn flex flex-col items-center text-gray-400">
+      <i class="fa-solid fa-compass text-base"></i>
+      <span class="text-[10px] mt-0.5">Discover</span>
+    </button>
+
+    <button onclick="switchTab('pickup')" id="mob-nav-pickup" class="mob-nav-btn flex flex-col items-center text-gray-400">
+      <i class="fa-solid fa-qrcode text-base"></i>
+      <span class="text-[10px] mt-0.5">Pickup</span>
+    </button>
+
+    <button onclick="switchTab('impact')" id="mob-nav-impact" class="mob-nav-btn flex flex-col items-center text-gray-400">
+      <i class="fa-solid fa-chart-pie text-base"></i>
+      <span class="text-[10px] mt-0.5">Impact</span>
+    </button>
+  </nav>
+
+  <!-- MODAL 1: ADD FOOD / SCAN RECEIPT -->
+  <div id="modal-add-food" class="fixed inset-0 z-50 bg-demeter-dark/60 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl border border-demeter-100">
+      <div class="flex justify-between items-center border-b border-gray-100 pb-3">
+        <h3 class="font-heading font-bold text-base text-demeter-900">Add Food to Pantry</h3>
+        <button onclick="closeAddFoodModal()" class="text-gray-400 hover:text-gray-600 text-lg">&times;</button>
+      </div>
+
+      <div class="space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">FOOD NAME</label>
+          <input type="text" id="new-item-name" placeholder="e.g. Organic Avocados" class="w-full px-3.5 py-2.5 bg-demeter-50/50 rounded-2xl border border-demeter-200 text-xs focus:outline-none">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">CATEGORY</label>
+            <select id="new-item-cat" class="w-full px-3.5 py-2.5 bg-demeter-50/50 rounded-2xl border border-demeter-200 text-xs">
+              <option value="Produce">Produce</option>
+              <option value="Dairy">Dairy</option>
+              <option value="Bakery">Bakery</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">EXPIRY DAYS</label>
+            <input type="number" id="new-item-days" value="4" class="w-full px-3.5 py-2.5 bg-demeter-50/50 rounded-2xl border border-demeter-200 text-xs">
+          </div>
+        </div>
+
+        <!-- Simulated OCR Receipt Scan Button -->
+        <button onclick="simulateReceiptScan()" class="w-full py-2.5 bg-demeter-50 hover:bg-demeter-100 text-demeter-800 font-bold text-xs rounded-2xl border border-demeter-200 transition flex items-center justify-center gap-2">
+          <i class="fa-solid fa-camera"></i>
+          <span>Auto Scan Receipt OCR</span>
+        </button>
+      </div>
+
+      <div class="pt-2 flex gap-2">
+        <button onclick="saveNewFoodItem()" class="flex-1 py-2.5 bg-demeter-700 text-white font-bold text-xs rounded-2xl hover:bg-demeter-800">Save Item</button>
+        <button onclick="closeAddFoodModal()" class="px-4 py-2.5 bg-gray-100 text-gray-600 font-bold text-xs rounded-2xl">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: RECIPE RESCUE MODAL -->
+  <div id="modal-recipe" class="fixed inset-0 z-50 bg-demeter-dark/60 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl border border-demeter-100">
+      <div class="flex justify-between items-center border-b border-gray-100 pb-3">
+        <div>
+          <span class="text-[10px] font-bold text-demeter-600 uppercase">Rescue Kitchen</span>
+          <h3 id="recipe-modal-title" class="font-heading font-bold text-base text-demeter-900">Recipes for Baby Spinach</h3>
+        </div>
+        <button onclick="closeRecipeModal()" class="text-gray-400 hover:text-gray-600 text-lg">&times;</button>
+      </div>
+
+      <div id="recipe-list" class="space-y-3">
+        <!-- Dynamic recipe items -->
+      </div>
+
+      <button onclick="closeRecipeModal()" class="w-full py-2.5 bg-demeter-700 text-white font-bold text-xs rounded-2xl">Done Cooking</button>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast-notify" class="fixed top-20 right-5 z-50 bg-demeter-900 text-white px-4 py-3 rounded-2xl shadow-2xl border border-demeter-600 hidden transition-all duration-300 max-w-xs text-xs flex items-center gap-3">
+    <i class="fa-solid fa-circle-check text-demeter-400 text-base"></i>
+    <span id="toast-msg">Item updated successfully!</span>
+  </div>
+
+  <!-- JAVASCRIPT APPLICATION LOGIC -->
+  <script>
+    let currentQty = 3;
+
+    // TAB SWITCHER FUNCTION
+    function switchTab(tabId) {
+      const views = ['pantry', 'donate', 'discover', 'pickup', 'impact'];
+      
+      views.forEach(v => {
+        document.getElementById(`view-${v}`).classList.add('hidden');
+        
+        // Desktop nav update
+        const deskBtn = document.getElementById(`desk-nav-${v}`);
+        if(deskBtn) deskBtn.className = "desk-nav-btn px-3 py-1.5 rounded-xl text-xs font-bold transition text-demeter-200 hover:text-white hover:bg-demeter-800";
+        
+        // Mobile nav update
+        const mobBtn = document.getElementById(`mob-nav-${v}`);
+        if(mobBtn) mobBtn.className = "mob-nav-btn flex flex-col items-center text-gray-400";
+      });
+
+      // Active tab highlighting
+      document.getElementById(`view-${tabId}`).classList.remove('hidden');
+      
+      const activeDesk = document.getElementById(`desk-nav-${tabId}`);
+      if(activeDesk) activeDesk.className = "desk-nav-btn px-3 py-1.5 rounded-xl text-xs font-bold transition bg-demeter-600 text-white";
+
+      const activeMob = document.getElementById(`mob-nav-${tabId}`);
+      if(activeMob) activeMob.className = "mob-nav-btn flex flex-col items-center text-demeter-700 font-bold";
+    }
+
+    // QUANTITY COUNTER
+    function adjustQty(amount) {
+      currentQty = Math.max(1, currentQty + amount);
+      document.getElementById('donate-qty-val').innerText = `${currentQty} kg (${currentQty * 2} portions)`;
+    }
+
+    // RANGE SLIDER
+    function updateRangeLabel(val) {
+      document.getElementById('best-within-val').innerText = `${val} days`;
+    }
+
+    // FILTER PANTRY CATEGORIES
+    function filterCategory(cat) {
+      const cards = document.querySelectorAll('.pantry-item-card');
+      cards.forEach(card => {
+        if(cat === 'All' || card.dataset.category === cat) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+
+    // FILTER PANTRY SEARCH
+    function filterPantryItems() {
+      const query = document.getElementById('pantry-search').value.toLowerCase();
+      const cards = document.querySelectorAll('.pantry-item-card');
+      cards.forEach(card => {
+        const name = card.dataset.name.toLowerCase();
+        if(name.includes(query)) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+
+    // FILTER DISCOVER CATEGORIES
+    function filterDiscoverCategory(cat) {
+      const cards = document.querySelectorAll('.discover-card');
+      cards.forEach(card => {
+        if(cat === 'All' || card.dataset.cat === cat) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+
+    // ACTIONS: FREEZE & SHARE
+    function freezeItem(itemName) {
+      showToast(`Logged "${itemName}" into Freezer Vault.`);
+    }
+
+    function shareItemToDonation(itemName, qty) {
+      switchTab('donate');
+      document.getElementById('donate-item-name').value = itemName;
+      showToast(`Pre-filled "${itemName}" in Donation Hub.`);
+    }
+
+    function prefillUrgentNeed(itemName, shelter) {
+      document.getElementById('donate-item-name').value = itemName;
+      document.getElementById('donate-location').value = shelter;
+      showToast(`Matched urgent request from ${shelter}!`);
+    }
+
+    function handleOfferSubmit(e) {
+      e.preventDefault();
+      const item = document.getElementById('donate-item-name').value;
+      showToast(`Listed "${item}" for community donation!`);
+      document.getElementById('donation-form').reset();
+    }
+
+    function reserveFoodItem(itemName, locker) {
+      switchTab('pickup');
+      showToast(`Reserved "${itemName}" at ${locker}!`);
+    }
+
+    function markCollected() {
+      showToast("Pickup confirmed! Rescued food added to Impact.");
+    }
+
+    // RECIPE RESCUE MODAL
+    function openRecipeModal(itemName) {
+      document.getElementById('recipe-modal-title').innerText = `Rescue Recipes for ${itemName}`;
+      const list = document.getElementById('recipe-list');
+      
+      list.innerHTML = `
+        <div class="p-3 bg-demeter-50 rounded-2xl border border-demeter-100 text-xs">
+          <p class="font-bold text-demeter-900">1. Quick ${itemName} Sauté</p>
+          <p class="text-gray-500 mt-0.5">Toss in olive oil, garlic, and fresh pepper. Ready in 5 mins.</p>
+        </div>
+        <div class="p-3 bg-demeter-50 rounded-2xl border border-demeter-100 text-xs">
+          <p class="font-bold text-demeter-900">2. Breakfast Egg Omelette</p>
+          <p class="text-gray-500 mt-0.5">Fold with eggs and sourdough crusts for maximum nutrition.</p>
+        </div>
+        <div class="p-3 bg-demeter-50 rounded-2xl border border-demeter-100 text-xs">
+          <p class="font-bold text-demeter-900">3. Green Smoothie Blend</p>
+          <p class="text-gray-500 mt-0.5">Blend with frozen bananas & oat milk.</p>
+        </div>
+      `;
+      document.getElementById('modal-recipe').classList.remove('hidden');
+    }
+
+    function closeRecipeModal() {
+      document.getElementById('modal-recipe').classList.add('hidden');
+    }
+
+    // ADD FOOD MODAL
+    function openAddFoodModal() {
+      document.getElementById('modal-add-food').classList.remove('hidden');
+    }
+
+    function closeAddFoodModal() {
+      document.getElementById('modal-add-food').classList.add('hidden');
+    }
+
+    function simulateReceiptScan() {
+      document.getElementById('new-item-name').value = "Organic Vine Tomatoes";
+      document.getElementById('new-item-cat').value = "Produce";
+      showToast("OCR scanned 1 item from receipt!");
+    }
+
+    function saveNewFoodItem() {
+      const name = document.getElementById('new-item-name').value || "Pantry Item";
+      const cat = document.getElementById('new-item-cat').value;
+      
+      const grid = document.getElementById('pantry-grid');
+      const newCard = document.createElement('div');
+      newCard.className = "pantry-item-card p-3.5 bg-demeter-50/40 rounded-2xl border border-demeter-100 flex items-center justify-between";
+      newCard.setAttribute('data-category', cat);
+      newCard.setAttribute('data-name', name);
+      newCard.innerHTML = `
+        <div class="flex items-center gap-3">
+          <span class="text-2xl">🌱</span>
+          <div>
+            <h5 class="font-bold text-xs text-gray-800">${name}</h5>
+            <p class="text-[11px] text-gray-500">Added just now</p>
+            <span class="text-[10px] font-semibold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-md inline-block mt-1">Freshly added</span>
+          </div>
+        </div>
+        <button onclick="shareItemToDonation('${name}', '1 portion')" class="text-xs text-demeter-700 hover:text-demeter-900 font-bold p-2 bg-white rounded-xl shadow-xs"><i class="fa-solid fa-share-nodes"></i></button>
+      `;
+      grid.prepend(newCard);
+      closeAddFoodModal();
+      showToast(`Added "${name}" to pantry!`);
+    }
+
+    // EXPORT ESG REPORT
+    function exportESGReport() {
+      const summary = `DEMETER ESG PERSONAL IMPACT REPORT\nUser: Alex L.\nPeriod: October 2026\n---------------------------\nFood Rescued: 12 kg\nCO2 Offset: 8.4 kg\nMeals Shared: 24 Meals\nCommunity Leaderboard Rank: #3 (Oakland)`;
+      const blob = new Blob([summary], { type: 'text/plain' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'Demeter_ESG_Report_AlexL.txt';
+      a.click();
+      showToast("ESG Summary Downloaded!");
+    }
+
+    // TOAST NOTIFIER
+    function showToast(msg) {
+      const toast = document.getElementById('toast-notify');
+      document.getElementById('toast-msg').innerText = msg;
+      toast.classList.remove('hidden');
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
